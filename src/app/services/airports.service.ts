@@ -1,7 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { API } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import {
+  Observable,
+  catchError,
+  map,
+  throwError,
+} from 'rxjs';
 import { TokenResponse } from '../model/TokenResponse';
 import { Airports, LocationSubType } from '../model/Airports';
 import { SSRCheck } from '../shared/SSRCheck';
@@ -22,13 +27,15 @@ export class AirportsService extends SSRCheck {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post<TokenResponse>(
-      `/api/v1/security/oauth2/token`,
-      body,
-      {
+    return this.http
+      .post<TokenResponse>(`/api/v1/security/oauth2/token`, body, {
         headers: headers,
-      }
-    );
+      })
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err.error.errors[0].detail);
+        })
+      );
   }
 
   getAirports(input: string): Observable<Airports> {
@@ -40,9 +47,21 @@ export class AirportsService extends SSRCheck {
       Authorization: `${localStorage.getItem('Authorization')}`,
     });
 
-    return this.http.get<Airports>('/api/v1/reference-data/locations', {
-      params,
-      headers,
-    });
+    return this.http
+      .get<Airports>('/api/v1/reference-data/locations', {
+        params,
+        headers,
+      })
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err.error.errors[0].detail);
+        }),
+        map((response: Airports) => {
+          if (response.data.length > 5) {
+            response.data = response.data.slice(0, 5);
+          }
+          return response;
+        })
+      );
   }
 }

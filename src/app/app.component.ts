@@ -23,9 +23,6 @@ export class AppComponent extends SSRCheck implements OnInit {
             `${res.token_type} ${res.access_token}`
           );
         },
-        error: (error) => {
-          console.log('Error while getting bearer token', error);
-        },
       });
     }
   }

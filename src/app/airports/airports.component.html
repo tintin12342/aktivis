@@ -1,1 +1,40 @@
-<p>airports works!</p>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-6">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Pretraži zračne luke"
+        (input)="searchInput$.next($event.target)"
+        [(ngModel)]="input"
+      />
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-3">
+    <div class="col">
+      <ul class="list-group">
+        <div *ngIf="airportData$ === undefined">
+          <span>Za pretragu zračnih luka upišite ime grada</span>
+        </div>
+        <div *ngIf="airportData$ | async as Airports">
+          <div *ngIf="Airports.data.length === 0">
+            <span>Za upisan pojam nema rezultata</span>
+          </div>
+          <li class="list-group-item" *ngFor="let data of Airports.data">
+            <div class="row">
+              <div class="col">
+                {{ data.name }}
+                <br />
+                {{ data.address.cityName }}, {{ data.address.countryName }}
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-primary">Detalji</button>
+              </div>
+            </div>
+          </li>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
