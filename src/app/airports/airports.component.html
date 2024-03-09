@@ -24,9 +24,10 @@
           <li class="list-group-item" *ngFor="let data of Airports.data">
             <div class="row">
               <div class="col">
-                {{ data.name }}
+                <strong>{{ data.name | titlecase }}</strong>
                 <br />
-                {{ data.address.cityName }}, {{ data.address.countryName }}
+                {{ data.address.countryName | titlecase }} |
+                {{ data.address.cityName | titlecase }}
               </div>
               <div class="col-auto">
                 <button class="btn btn-primary">Detalji</button>
