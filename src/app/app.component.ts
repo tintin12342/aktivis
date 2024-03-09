@@ -15,13 +15,18 @@ export class AppComponent extends SSRCheck implements OnInit {
   airportsService = inject(AirportsService);
 
   ngOnInit() {
-    this.airportsService.getBearerToken().subscribe((res: TokenResponse) => {
-      if (SSRCheck.hasSSRRendered()) {
-        localStorage.setItem(
-          'Authorization',
-          `${res.token_type} ${res.access_token}`
-        );
-      }
-    });
+    if (SSRCheck.hasSSRRendered()) {
+      this.airportsService.getBearerToken().subscribe({
+        next: (res: TokenResponse) => {
+          localStorage.setItem(
+            'Authorization',
+            `${res.token_type} ${res.access_token}`
+          );
+        },
+        error: (error) => {
+          console.log('Error while getting bearer token', error);
+        },
+      });
+    }
   }
 }
