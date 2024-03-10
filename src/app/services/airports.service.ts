@@ -24,7 +24,7 @@ export class AirportsService extends SSRCheck {
     });
 
     return this.http
-      .post<TokenResponse>(`/api/v1/security/oauth2/token`, body, {
+      .post<TokenResponse>(`${API.url}/security/oauth2/token`, body, {
         headers: headers,
       })
       .pipe(
@@ -44,7 +44,7 @@ export class AirportsService extends SSRCheck {
     });
 
     return this.http
-      .get<Airports>('/api/v1/reference-data/locations', {
+      .get<Airports>(`${API.url}/reference-data/locations`, {
         params,
         headers,
       })
@@ -67,7 +67,7 @@ export class AirportsService extends SSRCheck {
     });
 
     return this.http
-      .get<AirportDetails>(`/api/v1/reference-data/locations/${id}`, {
+      .get<AirportDetails>(`${API.url}/reference-data/locations/${id}`, {
         headers,
       })
       .pipe(

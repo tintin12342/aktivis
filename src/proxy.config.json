@@ -1,8 +1,0 @@
-{
-  "/api": {
-    "target": "https://test.api.amadeus.com",
-    "secure": true,
-    "pathRewrite": { "^/api": "" },
-    "changeOrigin": true
-  }
-}
