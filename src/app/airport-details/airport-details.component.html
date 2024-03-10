@@ -1,1 +1,76 @@
-<p>airport-details works!</p>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-12">
+      <button class="btn btn-outline-primary" routerLink="/">Povratak</button>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="airportDetails; else loading">
+    <div class="col-12">
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="mb-3">
+          <label for="id" class="form-label">Id</label>
+          <input
+            type="text"
+            class="form-control"
+            id="id"
+            name="id"
+            [disabled]="true"
+            [(ngModel)]="airportDetails.data.id"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Ime</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            required
+            [maxlength]="50"
+            [(ngModel)]="airportDetails.data.name"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="cityName" class="form-label">Grad</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cityName"
+            name="cityName"
+            required
+            [maxlength]="50"
+            [(ngModel)]="airportDetails.data.address.cityName"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="countryName" class="form-label">Država</label>
+          <input
+            type="text"
+            class="form-control"
+            id="countryName"
+            name="countryName"
+            required
+            [maxlength]="50"
+            [(ngModel)]="airportDetails.data.address.countryName"
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary float-end"
+          [disabled]="!form.valid"
+        >
+          Spremi
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <div class="row mt-3">
+      <div class="col-12">
+        <p>Dohvaćanje podataka...</p>
+      </div>
+    </div>
+  </ng-template>
+</div>
