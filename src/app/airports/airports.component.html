@@ -6,7 +6,6 @@
         class="form-control"
         placeholder="Pretraži zračne luke"
         (input)="searchInput$.next($event.target)"
-        [(ngModel)]="input"
       />
     </div>
   </div>
@@ -30,7 +29,7 @@
                 {{ data.address.cityName | titlecase }}
               </div>
               <div class="col-auto">
-                <button class="btn btn-primary">Detalji</button>
+                <button class="btn btn-primary" [routerLink]="['/airport-details', data.id]">Detalji</button>
               </div>
             </div>
           </li>

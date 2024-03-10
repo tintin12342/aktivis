@@ -1,15 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { API } from '../../environments/environment';
-import {
-  Observable,
-  catchError,
-  map,
-  throwError,
-} from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { TokenResponse } from '../model/TokenResponse';
 import { Airports, LocationSubType } from '../model/Airports';
 import { SSRCheck } from '../shared/SSRCheck';
+import { AirportDetails } from '../model/AirportDetails';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +57,22 @@ export class AirportsService extends SSRCheck {
             response.data = response.data.slice(0, 5);
           }
           return response;
+        })
+      );
+  }
+
+  getAirportDetails(id: string): Observable<AirportDetails> {
+    const headers = new HttpHeaders({
+      Authorization: `${localStorage.getItem('Authorization')}`,
+    });
+
+    return this.http
+      .get<AirportDetails>(`/api/v1/reference-data/locations/${id}`, {
+        headers,
+      })
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err.error.errors[0].detail);
         })
       );
   }
