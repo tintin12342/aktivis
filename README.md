@@ -27,3 +27,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
     `ng serve --open`
 
 The application will be opened on [http://localhost:4200](http://localhost:4200).
+
+### Live demo
+
+Can be viewed on this [link](https://aktivis.up.railway.app/).
